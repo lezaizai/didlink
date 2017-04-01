@@ -31,7 +31,6 @@ public class UserDao {
             loginAuth.setUsername(username);
             return loginAuth;
         } catch (Exception ex) {
-
             //LOGGER.log(Level.INFO, "ERROR saving Preview Record", ex);
             throw ex;
         } finally {
@@ -46,9 +45,7 @@ public class UserDao {
         LoginAuth loginAuth = null;
 
         try {
-
             con = getConnection();
-
             String sQry = "select USERNAME,PASSWORD from USER where USERNAME = ?";
 
             System.out.println("Save Qry::[" + sQry + "]");
