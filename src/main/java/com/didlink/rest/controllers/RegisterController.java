@@ -45,6 +45,14 @@ public class RegisterController implements Controller {
 		if (user == null) {
 			user = new LoginAuth();
 			user.setStatus(false);
+		} else {
+			final String token = AppServer.getTokenAuthenticationService().authenticateByUsernameAndPassword(loginAuth.getUsername(), loginAuth.getPassword());
+			if (token == null) {
+				user.setStatus(false);
+			} else {
+				user.setStatus(true);
+				user.setToken(token);
+			}
 		}
 
 		return user;

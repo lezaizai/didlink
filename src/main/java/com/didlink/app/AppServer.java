@@ -178,10 +178,10 @@ public class AppServer {
 			if (request instanceof ServletRequest)
 			{
 				HttpServletRequest httpRequest = HttpServletRequest.class.cast(request);
-//				List<String> headers = Collections.list(httpRequest.getHeaderNames());
-//				for (String hdr: headers) {
-//					System.out.println( "["+hdr+": "+httpRequest.getHeader(hdr)+"] ");
-//				}
+				List<String> headers = Collections.list(httpRequest.getHeaderNames());
+				for (String hdr: headers) {
+					System.out.println( "["+hdr+": "+httpRequest.getHeader(hdr)+"] ");
+				}
 				if (!"OPTIONS".equals(httpRequest.getMethod())) {
                     User loginUser = null;
                     try {
@@ -192,7 +192,9 @@ public class AppServer {
                     }
 
                     if ( loginUser == null ) { // user is not authenticated, we may need to throw exception
-                        if ( httpRequest.getRequestURI().indexOf("/rest/api/login")<0 && httpRequest.getRequestURI().startsWith("/rest/api/") ) {
+                        if ( httpRequest.getRequestURI().indexOf("/rest/api/login")<0 &&
+                                httpRequest.getRequestURI().indexOf("/rest/api/register")<0 &&
+                                httpRequest.getRequestURI().startsWith("/rest/api/") ) {
                             throw new ServletException("Invalid authentication when accessing "+httpRequest.getRequestURI());
                         }
                     }
