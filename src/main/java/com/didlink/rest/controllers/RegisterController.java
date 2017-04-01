@@ -28,7 +28,7 @@ public class RegisterController implements Controller {
 		try {
 			user = userDao.findUser(loginAuth.getUsername());
 		} catch (Exception e) {
-
+			//ignore
 		}
 
 		if (user != null) {
@@ -39,7 +39,7 @@ public class RegisterController implements Controller {
 		try {
 			user = userDao.saveUser(loginAuth.getUsername(), loginAuth.getPassword());
 		} catch (Exception e) {
-
+			//ignore
 		}
 
 		if (user == null) {
