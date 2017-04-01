@@ -9,13 +9,13 @@ import java.sql.ResultSet;
 
 public class UserDao {
 
-    public void saveUser(String username, String password) throws Exception {
+    public LoginAuth saveUser(String username, String password) throws Exception {
         Connection con = null;
         PreparedStatement statement = null;
+        LoginAuth loginAuth = null;
+
         try {
-
             con = getConnection();
-
             String sQry = "insert into USER(USERNAME,PASSWORD) values (?,?)";
 
             System.out.println("Save Qry::[" + sQry + "]");
@@ -26,7 +26,10 @@ public class UserDao {
             statement.setString(2, password);
 
             statement.executeUpdate();
-
+            loginAuth = new LoginAuth();
+            loginAuth.setStatus(true);
+            loginAuth.setUsername(username);
+            return loginAuth;
         } catch (Exception ex) {
 
             //LOGGER.log(Level.INFO, "ERROR saving Preview Record", ex);
@@ -39,7 +42,9 @@ public class UserDao {
     public LoginAuth findUser(String username) throws Exception {
         Connection con = null;
         PreparedStatement statement = null;
+        ResultSet resultSet = null;
         LoginAuth loginAuth = null;
+
         try {
 
             con = getConnection();
@@ -53,10 +58,13 @@ public class UserDao {
             statement.setString(1, username);
 
 
-            statement.executeUpdate();
+            resultSet = statement.executeQuery();
 
-            loginAuth = new LoginAuth();
-            loginAuth.setUsername("");
+            if (resultSet.first()) {
+                loginAuth = new LoginAuth();
+                loginAuth.setUsername(resultSet.getString("USERNAME"));
+                loginAuth.setPassword(resultSet.getString("PASSWORD"));
+            }
 
             return loginAuth;
 

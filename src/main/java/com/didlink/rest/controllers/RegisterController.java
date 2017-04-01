@@ -1,7 +1,9 @@
 package com.didlink.rest.controllers;
 
 import com.didlink.app.AppServer;
+import com.didlink.db.UserDao;
 import com.didlink.rest.bean.LoginAuth;
+import sun.rmi.runtime.Log;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -19,20 +21,32 @@ public class RegisterController implements Controller {
 	public LoginAuth login(LoginAuth loginAuth ) {
 		System.out.println(loginAuth.getUsername());
 		System.out.println(loginAuth.getPassword());
+		UserDao userDao = new UserDao();
 
-		final String token = AppServer.getTokenAuthenticationService().authenticateByUsernameAndPassword(loginAuth.getUsername(), loginAuth.getPassword());
+		LoginAuth user = null;
 
-		if (token == null) {
-			loginAuth.setStatus(false);
-		} else {
-			loginAuth.setStatus(true);
+		try {
+			user = userDao.findUser(loginAuth.getUsername());
+		} catch (Exception e) {
+
 		}
 
-		loginAuth.setPassword("");
-		loginAuth.setToken(token);
+		if (user != null) {
+			user.setStatus(false);
+			return user;
+		}
 
-		System.out.println(loginAuth.toString());
+		try {
+			user = userDao.saveUser(loginAuth.getUsername(), loginAuth.getPassword());
+		} catch (Exception e) {
 
-		return loginAuth;
+		}
+
+		if (user == null) {
+			user = new LoginAuth();
+			user.setStatus(false);
+		}
+
+		return user;
 	}
 }
