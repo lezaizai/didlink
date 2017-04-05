@@ -1,5 +1,6 @@
 package com.didlink.app;
 
+import com.didlink.service.JmdnsService;
 import io.undertow.Handlers;
 import io.undertow.Undertow;
 import io.undertow.server.HttpHandler;
@@ -39,20 +40,29 @@ import java.util.Collections;
 import java.util.List;
 
 public class AppServer {
+    private static Thread hook;
 
 	private static TokenAuthenticationService tokenAuthenticationService = null;
     private static JdbcDatabase jdbcDatabase = null;
+    private static JmdnsService jmdnsService = null;
 	public static TokenAuthenticationService getTokenAuthenticationService() {
 		return tokenAuthenticationService;
 	}
     public static JdbcDatabase getJdbcDatabase() {
         return jdbcDatabase;
     }
+    public static JmdnsService getJmdnsService() {
+	    return jmdnsService;
+    }
 
 	public static void main(String[] args) throws Exception {
 		final UserService userService = new UserService();
 		tokenAuthenticationService = new TokenAuthenticationService("tooManySecrets", userService);
         jdbcDatabase = new JdbcDatabase();
+        jmdnsService = new JmdnsService();
+
+        hook = new ShutdownHook();
+        Runtime.getRuntime().addShutdownHook(hook);
 
         new AppServer("0.0.0.0", 5946)
                 .addHandler( "/static",  createStaticResourceHandler() )
@@ -81,6 +91,8 @@ public class AppServer {
         for ( Pair<String,HttpHandler> handler : this.handlers ) {
             pathHandlers.addPrefixPath( handler.getLeft(), handler.getRight() );
         }
+
+        jmdnsService.register();
 
         Undertow server = Undertow.builder()
             .addHttpListener(port, host)
