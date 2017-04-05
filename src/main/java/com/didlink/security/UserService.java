@@ -44,7 +44,7 @@ public class UserService {
 
 		// usually we would compare this with a database table, or call an external service
 		// here just simple hard-coded compare:
-		if ( Objects.equals(username,"admin") && Objects.equals(password,"admin") ) {
+		if ( Objects.equals(username,"guest") && Objects.equals(password,"guest") ) {
 			return true;
 		}
 		return false;
