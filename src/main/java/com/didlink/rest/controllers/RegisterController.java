@@ -3,7 +3,6 @@ package com.didlink.rest.controllers;
 import com.didlink.app.AppServer;
 import com.didlink.db.UserDao;
 import com.didlink.rest.bean.LoginAuth;
-import sun.rmi.runtime.Log;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

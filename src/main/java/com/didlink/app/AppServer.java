@@ -92,6 +92,13 @@ public class AppServer {
             pathHandlers.addPrefixPath( handler.getLeft(), handler.getRight() );
         }
 
+        CorsFilter filter = new CorsFilter();
+        filter.setAllowedMethods("GET,POST,PUT,DELETE,OPTIONS");
+        filter.getAllowedOrigins().add("*");
+        filter.setAllowedHeaders("Authorization,content-type");
+        ResteasyProviderFactory providerFactory = ResteasyProviderFactory.getInstance();
+        providerFactory.register(filter);
+
         jmdnsService.register();
 
         Undertow server = Undertow.builder()
@@ -139,6 +146,7 @@ public class AppServer {
 
         deployment.setInjectorFactoryClass(CdiInjectorFactory.class.getName());
         deployment.setApplicationClass( ControllerFactory.class.getName() );
+
         DeploymentInfo di = server.undertowDeployment(deployment, appPath )
                 .setClassLoader(AppServer.class.getClassLoader())
                 .setContextPath( contextPath )
@@ -150,13 +158,6 @@ public class AppServer {
 	    }
         di.addListeners(Servlets.listener(Listener.class));
         DeploymentManager manager = Servlets.defaultContainer().addDeployment(di);
-
-        CorsFilter filter = new CorsFilter();
-        filter.setAllowedMethods("GET,POST,PUT,DELETE,OPTIONS");
-        filter.getAllowedOrigins().add("*");
-        filter.setAllowedHeaders("Authorization,content-type");
-        deployment.setProviderFactory(new ResteasyProviderFactory());
-        deployment.getProviderFactory().register(filter);
 
         manager.deploy();
         HttpHandler servletHandler = manager.start();
