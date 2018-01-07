@@ -164,16 +164,6 @@ public class AppServer {
         return servletHandler;
     }
 
-    protected void finalize() throws Throwable {
-        System.out.println("System already shutdown!");
-        try {
-            if (jdbcDatabase != null)
-                jdbcDatabase.close();
-        } finally {
-            super.finalize();
-        }
-    }
-
 	public static class AuthFilter implements Filter
 	{
 		@SuppressWarnings("unused")
