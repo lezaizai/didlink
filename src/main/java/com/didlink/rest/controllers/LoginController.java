@@ -1,6 +1,7 @@
 package com.didlink.rest.controllers;
 
 import com.didlink.app.AppServer;
+import com.didlink.db.UserDao;
 import com.didlink.rest.bean.LoginAuth;
 
 import javax.ws.rs.Consumes;
@@ -20,20 +21,45 @@ public class LoginController implements Controller {
 	public LoginAuth login(LoginAuth loginAuth ) {
 		System.out.println(loginAuth.getUsername());
 		System.out.println(loginAuth.getPassword());
+		UserDao userDao = new UserDao();
+
+		LoginAuth user = null;
+
+		try {
+			user = userDao.findUser(loginAuth.getUsername());
+		} catch (Exception e) {
+			//ignore
+		}
+
+		if (user == null) {
+
+			try {
+				user = userDao.saveUser(loginAuth.getUsername(), loginAuth.getPassword());
+			} catch (Exception e) {
+				//ignore
+			}
+
+			if (user == null) {
+				user = new LoginAuth();
+				user.setStatus((byte)1);
+				return user;
+			}
+		}
+
 
 		final String token = AppServer.getTokenAuthenticationService().authenticateByUsernameAndPassword(loginAuth.getUsername(), loginAuth.getPassword());
 
 		if (token == null) {
-			loginAuth.setStatus(false);
+			user.setStatus((byte)2);
 		} else {
-			loginAuth.setStatus(true);
+			user.setStatus((byte)0);
 		}
 
-		loginAuth.setPassword("");
-		loginAuth.setToken(token);
+		user.setPassword("");
+		user.setToken(token);
 
-		System.out.println(loginAuth.toString());
+		System.out.println(user.toString());
 
-		return loginAuth;
+		return user;
 	}
 }

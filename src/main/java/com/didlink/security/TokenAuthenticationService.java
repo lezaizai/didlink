@@ -21,7 +21,7 @@ public class TokenAuthenticationService {
 		if ( !UserService.isValidUsernameAndPassword(username, password) ) {
 			return null;
 		}
-		final User loginUser = new User( username);
+		final User loginUser = new User(username);
 		final String token = createTokenForUser(loginUser);
 		if ( token!=null && !token.isEmpty() ) {
 			userService.addUser(loginUser);

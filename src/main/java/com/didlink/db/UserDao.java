@@ -26,10 +26,7 @@ public class UserDao {
             statement.setString(2, password);
 
             statement.executeUpdate();
-            loginAuth = new LoginAuth();
-            loginAuth.setStatus(true);
-            loginAuth.setUsername(username);
-            return loginAuth;
+            return findUser(username);
         } catch (Exception ex) {
             //LOGGER.log(Level.INFO, "ERROR saving Preview Record", ex);
             throw ex;
@@ -46,7 +43,7 @@ public class UserDao {
 
         try {
             con = getConnection();
-            String sQry = "select USERNAME,PASSWORD from USER where USERNAME = ?";
+            String sQry = "select UID,STATUS,USERNAME,NICKNAME,PASSWORD from USER where USERNAME = ?";
 
             System.out.println("Save Qry::[" + sQry + "]");
 
@@ -59,6 +56,8 @@ public class UserDao {
 
             if (resultSet.first()) {
                 loginAuth = new LoginAuth();
+                loginAuth.setUid(resultSet.getLong("UID"));
+                loginAuth.setStatus(resultSet.getByte("STATUS"));
                 loginAuth.setUsername(resultSet.getString("USERNAME"));
                 loginAuth.setPassword(resultSet.getString("PASSWORD"));
             }

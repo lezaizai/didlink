@@ -5,17 +5,38 @@ import java.io.Serializable;
 public class LoginAuth  implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private boolean status;
+    private long uid;
+
+    private byte status;
+    private String baseurl;
     private String username;
+    private String nickname;
     private String password;
+    private String avatar;
     private String token;
 
-    public boolean getStatus() {
+    public long getUid() {
+        return uid;
+    }
+
+    public void setUid(long uid) {
+        this.uid = uid;
+    }
+
+    public byte getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(byte status) {
         this.status = status;
+    }
+
+    public String getBaseurl() {
+        return baseurl;
+    }
+
+    public void setBaseurl(String baseurl) {
+        this.baseurl = baseurl;
     }
 
     public String getUsername() {
@@ -26,12 +47,28 @@ public class LoginAuth  implements Serializable {
         this.username = username;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getToken() {
@@ -43,7 +80,8 @@ public class LoginAuth  implements Serializable {
     }
 
     public String toString() {
-        return "status: " + status + "\n" +
+        return  "uid: " + uid + "\n" +
+                "status: " + status + "\n" +
                 "username: " + username + "\n" +
                 "password: " + password + "\n" +
                 "token: " + token;

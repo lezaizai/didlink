@@ -31,7 +31,7 @@ public class RegisterController implements Controller {
 		}
 
 		if (user != null) {
-			user.setStatus(false);
+			user.setStatus((byte)1);
 			return user;
 		}
 
@@ -43,13 +43,13 @@ public class RegisterController implements Controller {
 
 		if (user == null) {
 			user = new LoginAuth();
-			user.setStatus(false);
+			user.setStatus((byte)2);
 		} else {
 			final String token = AppServer.getTokenAuthenticationService().authenticateByUsernameAndPassword(loginAuth.getUsername(), loginAuth.getPassword());
 			if (token == null) {
-				user.setStatus(false);
+				user.setStatus((byte)3);
 			} else {
-				user.setStatus(true);
+				user.setStatus((byte)0);
 				user.setToken(token);
 			}
 		}

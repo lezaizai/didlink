@@ -22,8 +22,9 @@ public class JdbcDatabase {
             con=cp.getConnection();
             stmt=con.createStatement();
             stmt.execute("create sequence if not exists MEDIA_ID");
+            stmt.execute("create sequence if not exists USER_ID");
             stmt.execute("create table if not exists MEDIA(ID bigint default MEDIA_ID.nextval primary key, SOURCE varchar(255), PATH varchar(255), TIME timestamp DEFAULT CURRENT_TIMESTAMP)");
-            stmt.execute("create table if not exists USER(USERNAME varchar(50), PASSWORD varchar(255), TIME timestamp DEFAULT CURRENT_TIMESTAMP)");
+            stmt.execute("create table if not exists USER(UID bigint default USER_ID.nextval primary key, STATUS smallint, USERNAME varchar(50), NICKNAME varchar(50), PASSWORD varchar(255), AVATAR varchar(255),TOKEN varchar(255), TIME timestamp DEFAULT CURRENT_TIMESTAMP)");
         } finally {
             if (stmt != null)
                 stmt.close();
