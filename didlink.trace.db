@@ -108,7 +108,7 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.h2.jdbcx.JdbcDataSource.getPooledConnection(JdbcDataSource.java:383)
 	at org.h2.jdbcx.JdbcConnectionPool.getConnectionNow(JdbcConnectionPool.java:226)
 	at org.h2.jdbcx.JdbcConnectionPool.getConnection(JdbcConnectionPool.java:198)
-	at com.didlink.db.JdbcDatabase.<init>(JdbcDatabase.java:25)
+	at com.didlink.db.H2JdbcDatabase.<init>(JdbcDatabase.java:25)
 	at com.didlink.app.AppServer.main(AppServer.java:51)
 Caused by: org.h2.jdbc.JdbcSQLException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/practice/angular-jwt-undertow-resteasy/didlink.mv.db [1.4.194/7]" [50000-194]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
@@ -146,7 +146,7 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.h2.jdbcx.JdbcDataSource.getPooledConnection(JdbcDataSource.java:383)
 	at org.h2.jdbcx.JdbcConnectionPool.getConnectionNow(JdbcConnectionPool.java:226)
 	at org.h2.jdbcx.JdbcConnectionPool.getConnection(JdbcConnectionPool.java:198)
-	at com.didlink.db.JdbcDatabase.<init>(JdbcDatabase.java:25)
+	at com.didlink.db.H2JdbcDatabase.<init>(JdbcDatabase.java:25)
 	at com.didlink.app.AppServer.main(AppServer.java:51)
 Caused by: org.h2.jdbc.JdbcSQLException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/practice/angular-jwt-undertow-resteasy/didlink.mv.db [1.4.194/7]" [50000-194]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)

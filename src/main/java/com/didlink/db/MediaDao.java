@@ -6,8 +6,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MediaDao {
+
+    private static final Logger LOGGER = Logger
+            .getLogger(MediaDao.class.getName());
 
     public void saveMedia() throws Exception {
         Connection con = null;
@@ -37,13 +41,17 @@ public class MediaDao {
     }
 
     public Connection getConnection() throws Exception {
+
         Connection con = null;
         try {
 
-            con = AppServer.getJdbcDatabase().getConnection();
+            con = MysqlDBManager.getInstance().getConnection(
+                    "DIDLINK");
 
+            LOGGER.finest("DB Connection Opened");
         } catch (Exception ex) {
-            System.out.println("ERROR getting DB Connection" + ex);
+            LOGGER.log(Level.INFO, "ERROR getting DB Connection", ex);
+
             throw ex;
         }
         return con;
@@ -60,7 +68,7 @@ public class MediaDao {
                 } finally {
                     if (resultSet != null) {
                         resultSet.close();
-                        System.out.println("DB ResultSet Closed");
+                        LOGGER.finest("DB ResultSet Closed");
                     }
                 }
             } catch (Exception ex) {
@@ -68,20 +76,19 @@ public class MediaDao {
             } finally {
                 if (statement != null) {
                     statement.close();
-                    System.out.println("DB Statement Closed");
+                    LOGGER.finest("DB Statement Closed");
                 }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            System.out.println("ERROR Closing DB Connection" + ex);
+            LOGGER.log(Level.INFO, "ERROR Closing DB Connection", ex);
         } finally {
             if (connection != null) {
                 connection.close();
-                System.out.println("DB Connection Closed");
+                LOGGER.finest("DB Connection Closed");
             }
 
         }
-
     }
 
 }

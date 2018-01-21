@@ -1,13 +1,17 @@
 package com.didlink.db;
 
-import com.didlink.app.AppServer;
 import com.didlink.rest.bean.LoginAuth;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UserDao {
+
+    private static final Logger LOGGER = Logger
+            .getLogger(UserDao.class.getName());
 
     public LoginAuth saveUser(String username, String password) throws Exception {
         Connection con = null;
@@ -18,7 +22,7 @@ public class UserDao {
             con = getConnection();
             String sQry = "insert into USER(USERNAME,PASSWORD) values (?,?)";
 
-            System.out.println("Save Qry::[" + sQry + "]");
+            LOGGER.log(Level.INFO, "Save Qry::[" + sQry + "]");
 
             statement = con.prepareStatement(sQry);
 
@@ -28,7 +32,7 @@ public class UserDao {
             statement.executeUpdate();
             return findUser(username);
         } catch (Exception ex) {
-            //LOGGER.log(Level.INFO, "ERROR saving Preview Record", ex);
+            LOGGER.log(Level.INFO, "ERROR saving Preview Record", ex);
             throw ex;
         } finally {
             closeConnection(con, statement, null);
@@ -45,7 +49,7 @@ public class UserDao {
             con = getConnection();
             String sQry = "select UID,STATUS,USERNAME,NICKNAME,PASSWORD from USER where USERNAME = ?";
 
-            System.out.println("Save Qry::[" + sQry + "]");
+            LOGGER.log(Level.INFO, "Save Qry::[" + sQry + "]");
 
             statement = con.prepareStatement(sQry);
 
@@ -66,7 +70,7 @@ public class UserDao {
 
         } catch (Exception ex) {
 
-            //LOGGER.log(Level.INFO, "ERROR saving Preview Record", ex);
+            LOGGER.log(Level.INFO, "ERROR saving Preview Record", ex);
             throw ex;
         } finally {
             closeConnection(con, statement, null);
@@ -74,13 +78,17 @@ public class UserDao {
     }
 
     public Connection getConnection() throws Exception {
+
         Connection con = null;
         try {
 
-            con = AppServer.getJdbcDatabase().getConnection();
+            con = MysqlDBManager.getInstance().getConnection(
+                    "DIDLINK");
 
+            LOGGER.finest("DB Connection Opened");
         } catch (Exception ex) {
-            System.out.println("ERROR getting DB Connection" + ex);
+            LOGGER.log(Level.INFO, "ERROR getting DB Connection", ex);
+
             throw ex;
         }
         return con;
@@ -97,7 +105,7 @@ public class UserDao {
                 } finally {
                     if (resultSet != null) {
                         resultSet.close();
-                        System.out.println("DB ResultSet Closed");
+                        LOGGER.finest("DB ResultSet Closed");
                     }
                 }
             } catch (Exception ex) {
@@ -105,16 +113,16 @@ public class UserDao {
             } finally {
                 if (statement != null) {
                     statement.close();
-                    System.out.println("DB Statement Closed");
+                    LOGGER.finest("DB Statement Closed");
                 }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            System.out.println("ERROR Closing DB Connection" + ex);
+            LOGGER.log(Level.INFO, "ERROR Closing DB Connection", ex);
         } finally {
             if (connection != null) {
                 connection.close();
-                System.out.println("DB Connection Closed");
+                LOGGER.finest("DB Connection Closed");
             }
 
         }

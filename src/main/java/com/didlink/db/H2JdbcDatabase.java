@@ -5,14 +5,14 @@ import org.h2.jdbcx.JdbcConnectionPool;
 import java.sql.Connection;
 import java.sql.Statement;
 
-public class JdbcDatabase {
+public class H2JdbcDatabase {
     private JdbcConnectionPool cp = null;
     private static String url = "jdbc:h2:file:./didlink;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE";
     private static String user = "sa";
     private static String password = "sa";
     private static int maxConnections = 20;
 
-    public JdbcDatabase() throws Exception {
+    public H2JdbcDatabase() throws Exception {
         cp = JdbcConnectionPool.create(url, user, password);
         cp.setMaxConnections(maxConnections);
 

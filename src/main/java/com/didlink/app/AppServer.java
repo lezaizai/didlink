@@ -1,12 +1,10 @@
 package com.didlink.app;
 
-import com.didlink.service.JmdnsService;
 import io.undertow.Handlers;
 import io.undertow.Undertow;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.server.handlers.PathHandler;
-import io.undertow.server.handlers.SetHeaderHandler;
 import io.undertow.server.handlers.resource.ClassPathResourceManager;
 import io.undertow.server.handlers.resource.ResourceHandler;
 import io.undertow.server.handlers.resource.ResourceManager;
@@ -15,7 +13,6 @@ import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
 import io.undertow.servlet.api.FilterInfo;
 import io.undertow.util.Headers;
-import io.undertow.util.HttpString;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jboss.resteasy.cdi.CdiInjectorFactory;
 import org.jboss.resteasy.plugins.interceptors.CorsFilter;
@@ -23,7 +20,6 @@ import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.jboss.weld.environment.servlet.Listener;
-import com.didlink.db.JdbcDatabase;
 import com.didlink.rest.controllers.ControllerFactory;
 import com.didlink.security.TokenAuthenticationService;
 import com.didlink.security.User;
@@ -43,23 +39,23 @@ public class AppServer {
     private static Thread hook;
 
 	private static TokenAuthenticationService tokenAuthenticationService = null;
-    private static JdbcDatabase jdbcDatabase = null;
-    private static JmdnsService jmdnsService = null;
-	public static TokenAuthenticationService getTokenAuthenticationService() {
-		return tokenAuthenticationService;
-	}
-    public static JdbcDatabase getJdbcDatabase() {
-        return jdbcDatabase;
+    public static TokenAuthenticationService getTokenAuthenticationService() {
+        return tokenAuthenticationService;
     }
-    public static JmdnsService getJmdnsService() {
-	    return jmdnsService;
-    }
+    //private static H2JdbcDatabase jdbcDatabase = null;
+    //private static JmdnsService jmdnsService = null;
+   //public static H2JdbcDatabase getJdbcDatabase() {
+    //    return jdbcDatabase;
+    //}
+    //public static JmdnsService getJmdnsService() {
+	//    return jmdnsService;
+    //}
 
 	public static void main(String[] args) throws Exception {
 		final UserService userService = new UserService();
 		tokenAuthenticationService = new TokenAuthenticationService("tooManySecrets", userService);
-        jdbcDatabase = new JdbcDatabase();
-        jmdnsService = new JmdnsService();
+        //jdbcDatabase = new H2JdbcDatabase();
+        //jmdnsService = new JmdnsService();
 
         hook = new ShutdownHook();
         Runtime.getRuntime().addShutdownHook(hook);
@@ -99,7 +95,7 @@ public class AppServer {
         ResteasyProviderFactory providerFactory = ResteasyProviderFactory.getInstance();
         providerFactory.register(filter);
 
-        jmdnsService.register();
+        //jmdnsService.register();
 
         Undertow server = Undertow.builder()
             .addHttpListener(port, host)
