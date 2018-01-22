@@ -17,6 +17,7 @@ public class Thread implements Serializable {
     public long getThid() {
         return thid;
     }
+
     public void setThid(long thid) {
         this.thid = thid;
     }
@@ -24,6 +25,7 @@ public class Thread implements Serializable {
     public long getTid() {
         return tid;
     }
+
     public void setTid(long tid) {
         this.tid = tid;
     }

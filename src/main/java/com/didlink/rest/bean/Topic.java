@@ -24,6 +24,7 @@ public class Topic implements Serializable {
     public long getTid() {
         return tid;
     }
+
     public void setTid(long tid) {
         this.tid = tid;
     }
@@ -31,6 +32,7 @@ public class Topic implements Serializable {
     public long getChid() {
         return chid;
     }
+
     public void setChid(long chid) {
         this.chid = chid;
     }

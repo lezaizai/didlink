@@ -29,9 +29,11 @@ public class Channel implements Serializable {
     public long getChid() {
         return chid;
     }
+
     public void setChid(long chid) {
         this.chid = chid;
     }
+
     public long getUid() {
         return uid;
     }
