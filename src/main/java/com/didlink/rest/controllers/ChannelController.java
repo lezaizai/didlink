@@ -22,6 +22,7 @@ public class ChannelController implements Controller {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/add")
     public Channel add(@Context SecurityContext securityContext, Channel channel){
         ChannelDao channelDao = new ChannelDao();
         System.out.println( "!!!"+securityContext.getUserPrincipal().getName() );
@@ -37,15 +38,23 @@ public class ChannelController implements Controller {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/json")
-    public AnyBean json(@Context SecurityContext securityContext) {
+    @Path("/get")
+    public List<Channel> get(@Context SecurityContext securityContext) {
 	    System.out.println( "!!!"+securityContext.getUserPrincipal().getName() );
-	    return new AnyBean();
+
+	    ChannelDao channelDao = new ChannelDao();
+
+	    try {
+            return channelDao.findByName("a");
+        } catch (Exception ex) {
+	        ex.printStackTrace();
+	        return null;
+        }
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/comment")
+    @Path("/get/{chid}")
     public List<Comment> comments(){
         return Arrays.asList(
             new Comment( "A", "a" ),

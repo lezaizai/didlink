@@ -23,7 +23,7 @@ public class ChannelDao {
 
         try {
             con = getConnection();
-            String sQry = "insert into CHANNELS(UID,TYPE,STATUS,NAME,DESCRIPTION) values values (?,?,?,?,?)";
+            String sQry = "insert into CHANNELS(UID,TYPE,STATUS,NAME,DESCRIPTION) values (?,?,?,?,?)";
 
             LOGGER.log(Level.INFO, "Save Qry::[" + sQry + "]");
 
