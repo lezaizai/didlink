@@ -16,6 +16,8 @@ public class ChannelDao {
 
     private static final Logger LOGGER = Logger
             .getLogger(ChannelDao.class.getName());
+    private static byte TYPE = 0;
+    private static byte STATUS = 0;
 
     public Channel add(Channel channel) throws Exception {
         Connection con = null;
@@ -42,6 +44,19 @@ public class ChannelDao {
             if (rs != null && rs.next()) {
                 key = rs.getLong(1);
             }
+
+            String sQry_1 = "insert into CHANNEL_USERS(CHID,UID,TYPE,STATUS) values (?,?,?,?)";
+
+            LOGGER.log(Level.INFO, "Save Qry::[" + sQry_1 + "]");
+
+            statement = con.prepareStatement(sQry_1, Statement.RETURN_GENERATED_KEYS);
+
+            statement.setLong(1, key);
+            statement.setLong(2, channel.getUid());
+            statement.setByte(3, TYPE);
+            statement.setByte(4, STATUS);
+
+            statement.executeUpdate();
 
             Channel newCh = new Channel();
             newCh.setChid(key);
