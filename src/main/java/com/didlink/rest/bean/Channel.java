@@ -1,6 +1,8 @@
 package com.didlink.rest.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Channel implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -12,6 +14,17 @@ public class Channel implements Serializable {
     private byte status;
     private String name;
     private String description;
+
+    private Channel parent;
+    private List<Channel> children;
+    private List<Contact> contacts;
+    private List<Topic> topics;
+
+    public Channel() {
+        this.children = new ArrayList<>();
+        this.contacts = new ArrayList<>();
+        this.topics = new ArrayList<>();
+    }
 
     public long getChid() {
         return chid;
@@ -57,6 +70,25 @@ public class Channel implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Channel getParent() {
+        return parent;
+    }
+    public void setParent(Channel parent) {
+        this.parent = parent;
+    }
+
+    public void addChild(Channel child) {
+        this.children.add(child);
+    }
+
+    public void addContact(Contact contact) {
+        this.contacts.add(contact);
+    }
+
+    public void addTopic(Topic topic) {
+        this.topics.add(topic);
     }
 
     public String toString() {
