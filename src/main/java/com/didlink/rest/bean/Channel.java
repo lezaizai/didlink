@@ -14,11 +14,13 @@ public class Channel implements Serializable {
     private byte status;
     private String name;
     private String description;
+    private int contacts_num;
 
     private Channel parent;
     private List<Channel> children;
     private List<Contact> contacts;
     private List<Topic> topics;
+
 
     public Channel() {
         this.children = new ArrayList<>();
@@ -72,6 +74,14 @@ public class Channel implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getContacts_num() {
+        return contacts_num;
+    }
+
+    public void setContacts_num(int contacts_num) {
+        this.contacts_num = contacts_num;
     }
 
     public Channel getParent() {

@@ -7,7 +7,7 @@ public class Thread implements Serializable {
 
     private long thid;
     private long tid;
-    private long uid;
+    private Contact author;
 
     private byte status;
     private String content;
@@ -30,12 +30,12 @@ public class Thread implements Serializable {
         this.tid = tid;
     }
 
-    public long getUid() {
-        return uid;
+    public Contact getAuthor() {
+        return author;
     }
 
-    public void setUid(long uid) {
-        this.uid = uid;
+    public void setAuthor(Contact author) {
+        this.author = author;
     }
 
     public byte getStatus() {
@@ -57,7 +57,7 @@ public class Thread implements Serializable {
     public String toString() {
         return  "thid: " + thid + "\n" +
                 "tid: " + tid + "\n" +
-                "uid: " + uid + "\n" +
+                "uid: " + author.getUid() + "\n" +
                 "status: " + status + "\n" +
                 "content: " + content;
     }

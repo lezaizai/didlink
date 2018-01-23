@@ -9,7 +9,7 @@ public class Topic implements Serializable {
 
     private long tid;
     private long chid;
-    private long uid;
+    private Contact author;
 
     private byte status;
     private String subject;
@@ -37,12 +37,12 @@ public class Topic implements Serializable {
         this.chid = chid;
     }
 
-    public long getUid() {
-        return uid;
+    public Contact getAuthor() {
+        return author;
     }
 
-    public void setUid(long uid) {
-        this.uid = uid;
+    public void setAuthor(Contact author) {
+        this.author = author;
     }
 
     public byte getStatus() {
@@ -71,7 +71,7 @@ public class Topic implements Serializable {
     public String toString() {
         return  "tid: " + tid + "\n" +
                 "chid: " + chid + "\n" +
-                "uid: " + uid + "\n" +
+                "uid: " + author.getUid() + "\n" +
                 "subject: " + subject;
     }
 
