@@ -1,6 +1,7 @@
 package com.didlink.db;
 
 import com.didlink.rest.bean.Channel;
+import com.didlink.rest.bean.Contact;
 import com.didlink.rest.bean.LoginAuth;
 import com.mysql.cj.api.jdbc.Statement;
 
@@ -31,7 +32,7 @@ public class ChannelDao {
 
             statement = con.prepareStatement(sQry, Statement.RETURN_GENERATED_KEYS);
 
-            statement.setLong(1, channel.getUid());
+            statement.setLong(1, channel.getOwner().getUid());
             statement.setByte(2, channel.getType());
             statement.setByte(3, channel.getStatus());
             statement.setString(4, channel.getName());
@@ -52,7 +53,7 @@ public class ChannelDao {
             statement = con.prepareStatement(sQry_1, Statement.RETURN_GENERATED_KEYS);
 
             statement.setLong(1, key);
-            statement.setLong(2, channel.getUid());
+            statement.setLong(2, channel.getOwner().getUid());
             statement.setByte(3, TYPE);
             statement.setByte(4, STATUS);
 
@@ -97,7 +98,7 @@ public class ChannelDao {
             Channel channel = new Channel();
             if (resultSet.first()) {
                channel.setChid(resultSet.getLong("CHID"));
-                channel.setUid(resultSet.getLong("UID"));
+                channel.setOwner(getOwner(resultSet.getLong("UID")));
                 channel.setType(resultSet.getByte("TYPE"));
                 channel.setStatus(resultSet.getByte("STATUS"));
                 channel.setName(resultSet.getString("NAME"));
@@ -139,7 +140,7 @@ public class ChannelDao {
             while (resultSet.next()) {
                 Channel channel = new Channel();
                 channel.setChid(resultSet.getLong("CHID"));
-                channel.setUid(resultSet.getLong("UID"));
+                channel.setOwner(getOwner(resultSet.getLong("UID")));
                 channel.setType(resultSet.getByte("TYPE"));
                 channel.setStatus(resultSet.getByte("STATUS"));
                 channel.setName(resultSet.getString("NAME"));
@@ -156,6 +157,18 @@ public class ChannelDao {
             throw ex;
         } finally {
             closeConnection(con, statement, null);
+        }
+    }
+
+    public Contact getOwner(long uid) throws Exception {
+        try {
+            UserDao userDao = new UserDao();
+            return userDao.findUserById(uid).toContact();
+
+        } catch (Exception ex) {
+
+            LOGGER.log(Level.INFO, "ERROR saving Preview Record", ex);
+            throw ex;
         }
     }
 

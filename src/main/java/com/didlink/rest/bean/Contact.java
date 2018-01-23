@@ -13,6 +13,12 @@ public class Contact implements Serializable {
     private String nickname;
     private String avatar;
 
+    public Contact(long uid, String username, String nickname) {
+        this.uid = uid;
+        this.username = username;
+        this.nickname = nickname;
+    }
+
     public long getUid() {
         return uid;
     }

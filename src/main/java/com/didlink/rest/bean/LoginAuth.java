@@ -79,6 +79,12 @@ public class LoginAuth  implements Serializable {
         this.token = token;
     }
 
+    public Contact toContact() {
+        Contact contact = new Contact(this.getUid(), this.getUsername(), this.getNickname());
+        contact.setAvatar(this.getAvatar());
+        return contact;
+    }
+
     public String toString() {
         return  "uid: " + uid + "\n" +
                 "status: " + status + "\n" +

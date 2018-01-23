@@ -8,7 +8,6 @@ public class Channel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private long chid;
-    private long uid;
 
     private byte type;
     private byte status;
@@ -16,6 +15,7 @@ public class Channel implements Serializable {
     private String description;
     private int contacts_num;
 
+    private Contact owner;
     private Channel parent;
     private List<Channel> children;
     private List<Contact> contacts;
@@ -36,12 +36,12 @@ public class Channel implements Serializable {
         this.chid = chid;
     }
 
-    public long getUid() {
-        return uid;
+    public Contact getOwner() {
+        return owner;
     }
 
-    public void setUid(long uid) {
-        this.uid = uid;
+    public void setOwner(Contact owner) {
+        this.owner = owner;
     }
 
     public byte getType() {
@@ -105,7 +105,7 @@ public class Channel implements Serializable {
 
     public String toString() {
         return  "chid: " + chid + "\n" +
-                "uid: " + uid + "\n" +
+                "uid: " + owner.getUid() + "\n" +
                 "type: " + type + "\n" +
                 "status: " + status + "\n" +
                 "name: " + name + "\n" +

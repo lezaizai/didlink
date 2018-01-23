@@ -77,6 +77,44 @@ public class UserDao {
         }
     }
 
+    public LoginAuth findUserById(long uid) throws Exception {
+        Connection con = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        LoginAuth loginAuth = null;
+
+        try {
+            con = getConnection();
+            String sQry = "select UID,STATUS,USERNAME,NICKNAME,PASSWORD from USER where UID = ?";
+
+            LOGGER.log(Level.INFO, "Save Qry::[" + sQry + "]");
+
+            statement = con.prepareStatement(sQry);
+
+            statement.setLong(1, uid);
+
+
+            resultSet = statement.executeQuery();
+
+            if (resultSet.first()) {
+                loginAuth = new LoginAuth();
+                loginAuth.setUid(resultSet.getLong("UID"));
+                loginAuth.setStatus(resultSet.getByte("STATUS"));
+                loginAuth.setUsername(resultSet.getString("USERNAME"));
+                loginAuth.setPassword(resultSet.getString("PASSWORD"));
+            }
+
+            return loginAuth;
+
+        } catch (Exception ex) {
+
+            LOGGER.log(Level.INFO, "ERROR saving Preview Record", ex);
+            throw ex;
+        } finally {
+            closeConnection(con, statement, null);
+        }
+    }
+
     public Connection getConnection() throws Exception {
 
         Connection con = null;
