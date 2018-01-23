@@ -8,15 +8,35 @@ public class Contact implements Serializable {
     private long uid;
 
     private byte status;
-    private String baseurl;
+    private boolean online;
     private String username;
     private String nickname;
     private String avatar;
+
+    public Contact() {
+
+    }
 
     public Contact(long uid, String username, String nickname) {
         this.uid = uid;
         this.username = username;
         this.nickname = nickname;
+    }
+
+    public Contact(long uid, boolean online, String username, String nickname) {
+        this.uid = uid;
+        this.online = online;
+        this.username = username;
+        this.nickname = nickname;
+    }
+
+    public Contact(long uid, byte status, boolean online, String username, String nickname, String avatar) {
+        this.uid = uid;
+        this.status = status;
+        this.online = online;
+        this.username = username;
+        this.nickname = nickname;
+        this.avatar = avatar;
     }
 
     public long getUid() {
@@ -35,12 +55,12 @@ public class Contact implements Serializable {
         this.status = status;
     }
 
-    public String getBaseurl() {
-        return baseurl;
+    public boolean getOnline() {
+        return online;
     }
 
-    public void setBaseurl(String baseurl) {
-        this.baseurl = baseurl;
+    public void setOnline(boolean online) {
+        this.online = online;
     }
 
     public String getUsername() {
