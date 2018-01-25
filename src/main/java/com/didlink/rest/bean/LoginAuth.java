@@ -89,7 +89,7 @@ public class LoginAuth  implements Serializable {
         return  "uid: " + uid + "\n" +
                 "status: " + status + "\n" +
                 "username: " + username + "\n" +
-                "password: " + password + "\n" +
+                "nickname: " + nickname + "\n" +
                 "token: " + token;
     }
 

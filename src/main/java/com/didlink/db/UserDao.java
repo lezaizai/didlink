@@ -63,6 +63,7 @@ public class UserDao {
                 loginAuth.setUid(resultSet.getLong("UID"));
                 loginAuth.setStatus(resultSet.getByte("STATUS"));
                 loginAuth.setUsername(resultSet.getString("USERNAME"));
+                loginAuth.setNickname(resultSet.getString("NICKNAME"));
                 loginAuth.setPassword(resultSet.getString("PASSWORD"));
             }
 
@@ -101,6 +102,7 @@ public class UserDao {
                 loginAuth.setUid(resultSet.getLong("UID"));
                 loginAuth.setStatus(resultSet.getByte("STATUS"));
                 loginAuth.setUsername(resultSet.getString("USERNAME"));
+                loginAuth.setNickname(resultSet.getString("NICKNAME"));
                 loginAuth.setPassword(resultSet.getString("PASSWORD"));
             }
 
