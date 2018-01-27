@@ -1,9 +1,12 @@
 package com.didlink.rest.bean;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Channel implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -26,6 +29,7 @@ public class Channel implements Serializable {
         this.children = new ArrayList<>();
         this.contacts = new ArrayList<>();
         this.topics = new ArrayList<>();
+        this.contacts_num = 0;
     }
 
     public long getChid() {
@@ -95,7 +99,12 @@ public class Channel implements Serializable {
         this.children.add(child);
     }
 
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
     public void addContact(Contact contact) {
+        this.contacts_num++;
         this.contacts.add(contact);
     }
 
@@ -104,12 +113,19 @@ public class Channel implements Serializable {
     }
 
     public String toString() {
+        String contactsStr = "";
+        for (int i = 0; i < this.contacts_num; i++) {
+            contactsStr += "contact id: " + getContacts().get(i).getUid() + "\n" +
+                    "contact nickname: " + getContacts().get(i).getNickname();
+        }
+
         return  "chid: " + chid + "\n" +
                 "uid: " + owner.getUid() + "\n" +
                 "type: " + type + "\n" +
                 "status: " + status + "\n" +
                 "name: " + name + "\n" +
-                "description: " + description;
+                "description: " + description + "\n" +
+                contactsStr;
     }
 
 }

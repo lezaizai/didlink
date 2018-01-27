@@ -28,7 +28,9 @@ public class ChannelController implements Controller {
         System.out.println( "!!!"+securityContext.getUserPrincipal().getName() );
 
         try {
-            return channelDao.add(channel);
+            Channel channel1 = channelDao.add(channel);
+            System.out.println(channel1.toString());
+            return channel1;
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;

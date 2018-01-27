@@ -66,6 +66,7 @@ public class ChannelDao {
             newCh.setStatus(channel.getStatus());
             newCh.setName(channel.getName());
             newCh.setDescription(channel.getDescription());
+            newCh.setContacts_num(0);
 
             Contact owner = channel.getOwner();
             newCh.setOwner(owner);
