@@ -75,7 +75,7 @@ public class ChannelDao {
             return newCh;
 
         } catch (Exception ex) {
-            LOGGER.log(Level.INFO, "ERROR saving Preview Record", ex);
+            LOGGER.log(Level.INFO, "ERROR saving channel_users", ex);
             throw ex;
         } finally {
             closeConnection(con, statement, null);
@@ -92,7 +92,7 @@ public class ChannelDao {
             con = getConnection();
             String sQry = "select CHID,UID,TYPE,STATUS,NAME,CONTACTS_NUM,DESCRIPTION from CHANNELS where CHID=?";
 
-            LOGGER.log(Level.INFO, "Save Qry::[" + sQry + "]");
+            LOGGER.log(Level.INFO, "Search Qry::[" + sQry + "]");
 
             statement = con.prepareStatement(sQry);
 
@@ -118,14 +118,14 @@ public class ChannelDao {
 
         } catch (Exception ex) {
 
-            LOGGER.log(Level.INFO, "ERROR saving Preview Record", ex);
+            LOGGER.log(Level.INFO, "ERROR searching channels", ex);
             throw ex;
         } finally {
             closeConnection(con, statement, null);
         }
     }
 
-    public List<Channel> findByName(String name) throws Exception {
+    public List<Channel> getSimpleList(String name) throws Exception {
         Connection con = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -135,7 +135,7 @@ public class ChannelDao {
             con = getConnection();
             String sQry = "select CHID,UID,TYPE,STATUS,NAME,CONTACTS_NUM,DESCRIPTION from CHANNELS where NAME like ?";
 
-            LOGGER.log(Level.INFO, "Save Qry::[" + sQry + "]");
+            LOGGER.log(Level.INFO, "Search Qry::[" + sQry + "]");
 
             statement = con.prepareStatement(sQry);
 
@@ -161,7 +161,7 @@ public class ChannelDao {
 
         } catch (Exception ex) {
 
-            LOGGER.log(Level.INFO, "ERROR saving Preview Record", ex);
+            LOGGER.log(Level.INFO, "ERROR searching channels", ex);
             throw ex;
         } finally {
             closeConnection(con, statement, null);
@@ -175,7 +175,7 @@ public class ChannelDao {
 
         } catch (Exception ex) {
 
-            LOGGER.log(Level.INFO, "ERROR saving Preview Record", ex);
+            LOGGER.log(Level.INFO, "ERROR fetch owner", ex);
             throw ex;
         }
     }

@@ -40,14 +40,16 @@ public class ChannelController implements Controller {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/get")
-    public List<Channel> get(@Context SecurityContext securityContext) {
-	    System.out.println( "!!!"+securityContext.getUserPrincipal().getName() );
+    @Path("/getSimpleList")
+    public List<Channel> getSimpleList(@Context SecurityContext securityContext,
+                                       @QueryParam("name") String name) {
+        System.out.println( "!!!"+securityContext.getUserPrincipal().getName() );
+        System.out.println( "!!!"+name);
 
 	    ChannelDao channelDao = new ChannelDao();
 
 	    try {
-            return channelDao.findByName("a");
+            return channelDao.getSimpleList(name);
         } catch (Exception ex) {
 	        ex.printStackTrace();
 	        return null;
