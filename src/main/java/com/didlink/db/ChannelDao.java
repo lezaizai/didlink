@@ -26,7 +26,7 @@ public class ChannelDao {
 
         try {
             con = getConnection();
-            String sQry = "insert into CHANNELS(UID,TYPE,STATUS,NAME,DESCRIPTION) values (?,?,?,?,?)";
+            String sQry = "insert into CHANNELS(UID,TYPE,STATUS,NAME,CONTACTS_NUM,DESCRIPTION) values (?,?,?,?,?,?)";
 
             LOGGER.log(Level.INFO, "Save Qry::[" + sQry + "]");
 
@@ -36,7 +36,8 @@ public class ChannelDao {
             statement.setByte(2, channel.getType());
             statement.setByte(3, channel.getStatus());
             statement.setString(4, channel.getName());
-            statement.setString(5, channel.getDescription());
+            statement.setInt(5, channel.getContacts_num());
+            statement.setString(6, channel.getDescription());
 
             statement.executeUpdate();
 
@@ -65,7 +66,10 @@ public class ChannelDao {
             newCh.setStatus(channel.getStatus());
             newCh.setName(channel.getName());
             newCh.setDescription(channel.getDescription());
-            newCh.setOwner(channel.getOwner());
+
+            Contact owner = channel.getOwner();
+            newCh.setOwner(owner);
+            newCh.addContact(owner);
 
             return newCh;
 
@@ -85,7 +89,7 @@ public class ChannelDao {
 
         try {
             con = getConnection();
-            String sQry = "select CHID,UID,TYPE,STATUS,NAME,DESCRIPTION from CHANNELS where CHID=?";
+            String sQry = "select CHID,UID,TYPE,STATUS,NAME,CONTACTS_NUM,DESCRIPTION from CHANNELS where CHID=?";
 
             LOGGER.log(Level.INFO, "Save Qry::[" + sQry + "]");
 
@@ -103,6 +107,7 @@ public class ChannelDao {
                 channel.setType(resultSet.getByte("TYPE"));
                 channel.setStatus(resultSet.getByte("STATUS"));
                 channel.setName(resultSet.getString("NAME"));
+                channel.setContacts_num(resultSet.getInt("CONTACTS_NUM"));
                 channel.setDescription(resultSet.getString("DESCRIPTION"));
 
                 channels.add(channel);
@@ -127,7 +132,7 @@ public class ChannelDao {
 
         try {
             con = getConnection();
-            String sQry = "select CHID,UID,TYPE,STATUS,NAME,DESCRIPTION from CHANNELS where NAME like ?";
+            String sQry = "select CHID,UID,TYPE,STATUS,NAME,CONTACTS_NUM,DESCRIPTION from CHANNELS where NAME like ?";
 
             LOGGER.log(Level.INFO, "Save Qry::[" + sQry + "]");
 
@@ -145,6 +150,7 @@ public class ChannelDao {
                 channel.setType(resultSet.getByte("TYPE"));
                 channel.setStatus(resultSet.getByte("STATUS"));
                 channel.setName(resultSet.getString("NAME"));
+                channel.setContacts_num(resultSet.getInt("CONTACTS_NUM"));
                 channel.setDescription(resultSet.getString("DESCRIPTION"));
 
                 channels.add(channel);
